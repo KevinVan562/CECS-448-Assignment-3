@@ -1,0 +1,298 @@
+.course-main {
+  width: 100%;
+  max-width: none;
+  padding: 0;
+}
+
+.course-top h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.course-top p {
+  margin: 8px 0 24px;
+  color: #9bb7d8;
+  font-size: 15px;
+}
+
+.course-tabs {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  background: #1a2942;
+  border-radius: 13px;
+  padding: 4px;
+  margin-bottom: 28px;
+}
+
+.course-tabs button {
+  border: none;
+  background: transparent;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.course-tabs button.active {
+  background: #0c1420;
+}
+
+.course-tabs span {
+  padding: 0 12px;
+  color: white;
+  font-weight: 700;
+}
+
+.course-search-box {
+  background: #111622;
+  border: 1px solid #2c3548;
+  border-radius: 13px;
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.course-search-input {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #151b2b;
+  border: 1px solid #2c3548;
+  border-radius: 8px;
+  padding: 0 14px;
+}
+
+.course-search-input span {
+  color: #91a4bf;
+}
+
+.course-search-input input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 12px 0;
+}
+
+.course-search-box button {
+  background: transparent;
+  border: 1px solid #2c3548;
+  color: white;
+  border-radius: 8px;
+  padding: 0 20px;
+  font-weight: 700;
+}
+
+.course-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.figma-course-card {
+  background: #111622;
+  border: 1px solid #2c3548;
+  border-radius: 13px;
+  padding: 24px 28px 22px;
+}
+
+.figma-course-card {
+  transition: all 0.22s ease;
+  cursor: pointer;
+}
+
+.figma-course-card:hover {
+  background: #161f31;
+  border-color: #625df5;
+  transform: translateY(-2px);
+  box-shadow: 0 0 18px rgba(98, 93, 245, 0.18);
+}
+
+.figma-course-card:hover h2 {
+  color: #8d8aff;
+}
+
+.figma-course-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.figma-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.figma-title-row h2 {
+  margin: 0;
+  color: white;
+  font-size: 18px;
+}
+
+.figma-course-header p {
+  margin: 12px 0 18px;
+  color: #9bb7d8;
+  font-size: 14px;
+}
+
+.view-btn {
+  align-self: flex-start;
+  background: #625df5;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  padding: 11px 19px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.figma-info-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 34px;
+  border-bottom: 1px solid #2c3548;
+  padding-bottom: 17px;
+}
+
+.figma-info-row div {
+  min-width: 0;
+}
+
+.figma-info-row span {
+  display: block;
+  color: #9bb7d8;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.figma-info-row strong {
+  display: block;
+  color: white;
+  font-size: 13px;
+}
+
+.orange-text {
+  color: #ff8a00 !important;
+}
+
+.figma-prereqs {
+  margin-top: 14px;
+}
+
+.figma-prereqs p {
+  margin: 0 0 8px;
+  color: #9bb7d8;
+  font-size: 13px;
+}
+
+.figma-prereqs div {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.schedule-card {
+  background: #111622;
+  border: 1px solid #2c3548;
+  border-radius: 13px;
+  padding: 24px;
+}
+
+.schedule-title {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 26px;
+}
+
+.schedule-title h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.schedule-title p {
+  margin: 0;
+  color: #9bb7d8;
+}
+
+.schedule-row {
+  border: 1px solid #2c3548;
+  border-radius: 10px;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr auto;
+  gap: 30px;
+  align-items: center;
+}
+
+.schedule-row + .schedule-row {
+  margin-top: 0;
+  border-top: none;
+}
+
+.schedule-row h3 {
+  margin: 0 0 18px;
+  font-size: 16px;
+}
+
+.schedule-row span {
+  display: block;
+  color: #9bb7d8;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.schedule-row strong {
+  font-size: 13px;
+}
+
+.schedule-row em {
+  background: #625df5;
+  color: white;
+  border-radius: 7px;
+  padding: 5px 10px;
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.schedule-row {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.schedule-row:hover {
+  background: #161f31;
+  border-color: #625df5;
+  transform: translateY(-2px);
+  box-shadow: 0 0 18px rgba(98, 93, 245, 0.18);
+}
+.schedule-row:hover h3 {
+  color: #8d8aff;
+}
+
+@media (max-width: 900px) {
+  .course-main {
+    padding: 0;
+  }
+
+  .figma-course-header,
+  .schedule-title {
+    flex-direction: column;
+  }
+
+  .figma-info-row,
+  .schedule-row {
+    grid-template-columns: 1fr;
+  }
+
+  .course-search-box {
+    flex-direction: column;
+  }
+}

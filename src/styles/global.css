@@ -321,6 +321,62 @@ p {
   background: var(--red);
 }
 
+.prereq-status,
+.prereq-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.prereq-status {
+  min-height: 24px;
+  padding: 0 10px;
+}
+
+.prereq-chip {
+  min-height: 24px;
+  padding: 0 9px;
+}
+
+.prereq-status svg,
+.prereq-chip svg {
+  flex: 0 0 auto;
+}
+
+.prereq-status.met,
+.prereq-chip.met {
+  color: #12e083;
+  background: #073c2b;
+  border: 1px solid #0a7d4d;
+}
+
+.prereq-status.not-met,
+.prereq-chip.not-met {
+  color: #ff666d;
+  background: #3a1118;
+  border: 1px solid #94303a;
+}
+
+.prereq-status-icon {
+  display: inline-flex;
+  width: 26px;
+  height: 26px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+}
+
+.prereq-status-icon.not-met {
+  color: #ff666d;
+  background: #3a1118;
+  border: 1px solid #94303a;
+}
+
 .notice-stack {
   display: grid;
   gap: 12px;
