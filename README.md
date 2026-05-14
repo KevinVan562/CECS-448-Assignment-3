@@ -61,7 +61,7 @@ npm run preview
 
 Target platform: Vercel
 
-Deployed link: TBD
+[Deployed link](https://assignment3-9i5d6u1lk-assignment3.vercel.app)
 
 Recommended Vercel settings:
 
