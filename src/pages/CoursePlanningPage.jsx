@@ -7,17 +7,41 @@ const courses = [
   {
     code: 'CS 410',
     name: 'Operating Systems',
-    description: 'Study of operating system design and implementation.',
+    department: 'Computer Science',
+    credits: 3,
+    description:
+      'Study of operating system design and implementation including process management, memory management, file systems, and I/O systems.',
     instructor: 'Dr. Sarah Johnson',
     schedule: 'MWF 10:00-10:50',
     availability: '12 / 30 seats',
     rating: '4.5 / 5.0',
     eligible: true,
     prereqs: ['CS 301 ✓', 'CS 250 ✓'],
+    outcomes: [
+      'Understand core operating system concepts and architecture',
+      'Implement process scheduling and synchronization',
+      'Design and manage memory allocation systems',
+      'Build file system components',
+      'Debug concurrent and parallel programs',
+    ],
+    textbooks: [
+      {
+        title: 'Operating System Concepts',
+        author: 'Silberschatz, Galvin, and Gagne',
+      },
+    ],
+    grading: [
+      ['Programming Projects', 50],
+      ['Midterm Exam', 20],
+      ['Final Exam', 25],
+      ['Participation', 5],
+    ],
   },
   {
     code: 'CS 425',
     name: 'Machine Learning',
+    department: 'Computer Science',
+    credits: 3,
     description: 'Introduction to machine learning algorithms and applications.',
     instructor: 'Dr. Michael Chen',
     schedule: 'TR 13:00-14:15',
@@ -29,6 +53,8 @@ const courses = [
   {
     code: 'CS 360',
     name: 'Computer Networks',
+    department: 'Computer Science',
+    credits: 3,
     description: 'Principles of computer networking and internet protocols.',
     instructor: 'Dr. Emily Rodriguez',
     schedule: 'MWF 14:00-14:50',
@@ -40,6 +66,8 @@ const courses = [
   {
     code: 'MATH 241',
     name: 'Linear Algebra',
+    department: 'Mathematics',
+    credits: 3,
     description: 'Vectors, matrices, linear transformations, and eigenvalues.',
     instructor: 'Dr. Robert Kim',
     schedule: 'TR 10:00-11:15',
@@ -51,6 +79,8 @@ const courses = [
   {
     code: 'STAT 400',
     name: 'Statistics',
+    department: 'Statistics',
+    credits: 3,
     description: 'Probability theory and statistical inference.',
     instructor: 'Dr. Lisa Anderson',
     schedule: 'MWF 11:00-11:50',
@@ -80,19 +110,54 @@ const currentSchedule = [
   },
 ]
 
-const getPrerequisiteStatus = (req) => (req.includes('missing') ? 'not-met' : 'met')
+const getPrerequisiteStatus = (req) =>
+  req.includes('missing') ? 'not-met' : 'met'
 
 const getPrerequisiteLabel = (req) =>
   req.replace(' ✓', '').replace(' (missing)', '')
 
-function CoursePlanningPage() {
+function CoursePlanningPage({
+  plannedCourses = [],
+  setPlannedCourses = () => {},
+  goToMyPlan = () => {},
+}) {
   const [activeTab, setActiveTab] = useState('browse')
   const [searchTerm, setSearchTerm] = useState('')
+  const [selectedCourse, setSelectedCourse] = useState(null)
+
+  const addToPlan = (course) => {
+    setPlannedCourses((currentCourses) => {
+      const current = currentCourses ?? []
+      const alreadyAdded = current.some(
+        (plannedCourse) => plannedCourse.code === course.code
+      )
+
+      return alreadyAdded ? current : [...current, course]
+    })
+
+    goToMyPlan()
+  }
 
   const filteredCourses = courses.filter((course) => {
     const text = `${course.code} ${course.name} ${course.description} ${course.instructor}`
+
     return text.toLowerCase().includes(searchTerm.toLowerCase())
   })
+
+  const selectedCourseIsPlanned = selectedCourse
+    ? plannedCourses.some((course) => course.code === selectedCourse.code)
+    : false
+
+  if (selectedCourse) {
+    return (
+      <CourseDetails
+        course={selectedCourse}
+        isPlanned={selectedCourseIsPlanned}
+        onBack={() => setSelectedCourse(null)}
+        onAddToPlan={addToPlan}
+      />
+    )
+  }
 
   return (
     <div className="my-plan-page course-planning-page">
@@ -117,7 +182,7 @@ function CoursePlanningPage() {
             Current Schedule
           </button>
 
-          <span>2</span>
+          <span>{currentSchedule.length}</span>
         </div>
 
         {activeTab === 'browse' ? (
@@ -125,6 +190,7 @@ function CoursePlanningPage() {
             <section className="course-search-box">
               <div className="course-search-input">
                 <span>⌕</span>
+
                 <input
                   type="text"
                   placeholder="Search courses..."
@@ -142,18 +208,37 @@ function CoursePlanningPage() {
                   <div className="figma-course-header">
                     <div>
                       <div className="figma-title-row">
-                        <h2>{course.code} - {course.name}</h2>
+                        <h2>
+                          {course.code} - {course.name}
+                        </h2>
 
-                        <span className={course.eligible ? 'prereq-status met' : 'prereq-status not-met'}>
-                          <Icon name={course.eligible ? 'check' : 'alert'} size={14} />
-                          {course.eligible ? 'Prerequisites Met' : 'Prerequisites Not Met'}
+                        <span
+                          className={
+                            course.eligible
+                              ? 'prereq-status met'
+                              : 'prereq-status not-met'
+                          }
+                        >
+                          <Icon
+                            name={course.eligible ? 'check' : 'alert'}
+                            size={14}
+                          />
+
+                          {course.eligible
+                            ? 'Prerequisites Met'
+                            : 'Prerequisites Not Met'}
                         </span>
                       </div>
 
                       <p>{course.description}</p>
                     </div>
 
-                    <button className="view-btn">View Details</button>
+                    <button
+                      className="view-btn"
+                      onClick={() => setSelectedCourse(course)}
+                    >
+                      View Details
+                    </button>
                   </div>
 
                   <div className="figma-info-row">
@@ -190,9 +275,17 @@ function CoursePlanningPage() {
                         return (
                           <span
                             key={req}
-                            className={status === 'not-met' ? 'prereq-chip not-met' : 'prereq-chip met'}
+                            className={
+                              status === 'not-met'
+                                ? 'prereq-chip not-met'
+                                : 'prereq-chip met'
+                            }
                           >
-                            <Icon name={status === 'not-met' ? 'alert' : 'check'} size={12} />
+                            <Icon
+                              name={status === 'not-met' ? 'alert' : 'check'}
+                              size={12}
+                            />
+
                             {getPrerequisiteLabel(req)}
                           </span>
                         )
@@ -233,6 +326,92 @@ function CoursePlanningPage() {
             ))}
           </section>
         )}
+      </main>
+    </div>
+  )
+}
+
+function CourseDetails({
+  course,
+  isPlanned,
+  onBack,
+  onAddToPlan,
+}) {
+  return (
+    <div className="my-plan-page course-planning-page">
+      <main className="course-main">
+        <button
+          className="course-back-btn"
+          onClick={onBack}
+        >
+          ← Back to Courses
+        </button>
+
+        <header className="course-detail-header">
+          <div>
+            <div className="figma-title-row">
+              <h1>{course.code}</h1>
+
+              <span
+                className={
+                  course.eligible
+                    ? 'prereq-status met'
+                    : 'prereq-status not-met'
+                }
+              >
+                <Icon
+                  name={course.eligible ? 'check' : 'alert'}
+                  size={14}
+                />
+
+                {course.eligible
+                  ? 'Eligible to Enroll'
+                  : 'Prerequisites Not Met'}
+              </span>
+            </div>
+
+            <h2>{course.name}</h2>
+
+            <p>
+              {course.department} • {course.credits} Credits
+            </p>
+          </div>
+
+          <div className="course-detail-actions">
+            <button className="secondary-btn">
+              ↓ Syllabus
+            </button>
+
+            <button
+              className="view-btn"
+              onClick={() => onAddToPlan(course)}
+            >
+              {isPlanned ? 'View in My Plan' : 'Add to My Plan'}
+            </button>
+          </div>
+        </header>
+
+        <section className="course-detail-stats">
+          <div>
+            <span>♙ Instructor</span>
+            <strong>{course.instructor}</strong>
+          </div>
+
+          <div>
+            <span>◷ Schedule</span>
+            <strong>{course.schedule}</strong>
+          </div>
+
+          <div>
+            <span>▱ Availability</span>
+            <strong>{course.availability}</strong>
+          </div>
+
+          <div>
+            <span>☆ Rating</span>
+            <strong>{course.rating}</strong>
+          </div>
+        </section>
       </main>
     </div>
   )

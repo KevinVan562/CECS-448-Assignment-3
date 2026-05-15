@@ -1,4 +1,5 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { useState } from 'react'
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import AppLayout from './layouts/AppLayout.jsx'
 import AlertsPage from './pages/AlertsPage.jsx'
 import ConfirmationPage from './pages/ConfirmationPage.jsx'
@@ -12,6 +13,9 @@ import ResourcesPage from './pages/ResourcesPage.jsx'
 import WelcomePage from './pages/WelcomePage.jsx'
 
 function App() {
+  const [plannedCourses, setPlannedCourses] = useState([])
+  const navigate = useNavigate()
+
   return (
     <Routes>
       <Route element={<AppLayout />}>
@@ -19,8 +23,17 @@ function App() {
         <Route path="/onboarding/major" element={<MajorSelectionPage />} />
         <Route path="/onboarding/graduation" element={<GraduationGoalPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/my-plan" element={<MyPlanPage />} />
-        <Route path="/plan-courses" element={<CoursePlanningPage />} />
+        <Route path="/my-plan" element={<MyPlanPage plannedCourses={plannedCourses} />} />
+        <Route
+          path="/plan-courses"
+          element={
+            <CoursePlanningPage
+              plannedCourses={plannedCourses}
+              setPlannedCourses={setPlannedCourses}
+              goToMyPlan={() => navigate('/my-plan')}
+            />
+          }
+        />
         <Route path="/courses/:courseId" element={<CourseDetailsPage />} />
         <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/alerts" element={<AlertsPage />} />
