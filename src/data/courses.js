@@ -179,8 +179,8 @@ export const courses = [
 ]
 
 export const nextSteps = [
-  { label: 'Complete Spring 2027 Schedule', complete: false },
-  { label: 'Meet with Academic Advisor', complete: false },
-  { label: 'Confirm Senior Project prerequisites', complete: false },
-  { label: 'Update Degree Audit', complete: true },
+  { label: 'Complete Spring 2027 Schedule', complete: false, to: '/my-plan' },
+  { label: 'Meet with Academic Advisor', complete: false, to: '/resources' },
+  { label: 'Confirm CS 425 prerequisites', complete: false, to: '/courses/cs-425' },
+  { label: 'Review alerts and deadlines', complete: true },
 ]

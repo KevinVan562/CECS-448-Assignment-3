@@ -198,16 +198,13 @@
   border-radius: 8px;
   background: transparent;
   color: white;
-  cursor: pointer;
   text-align: left;
   width: 100%;
-  transition: all 0.2s ease;
   font-family: inherit;
 }
 
-.item-row:hover {
-  background: #161f31;
-  border-color: #2c3548;
+.support-row {
+  cursor: default;
 }
 
 .item-row strong {
@@ -220,17 +217,6 @@
 .item-row span {
   color: #9bb7d8;
   font-size: 12px;
-}
-
-.item-arrow {
-  color: #9bb7d8;
-  font-size: 18px;
-  transition: transform 0.2s ease;
-}
-
-.item-row:hover .item-arrow {
-  color: #7167ff;
-  transform: translateX(3px);
 }
 
 .quick-contact {

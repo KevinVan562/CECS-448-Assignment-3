@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import Icon from '../components/Icon.jsx'
+import { courses as catalogCourses } from '../data/courses.js'
 import '../styles/myplan.css'
 
 const semesters = [
@@ -96,6 +98,10 @@ const geReqs = [
   { label: 'Natural Sciences', value: '8 / 8 credits', percent: 100 },
 ]
 
+const courseDetailsByCode = new Map(
+  catalogCourses.map((course) => [course.code, `/courses/${course.id}`])
+)
+
 function MyPlanPage({ plannedCourses = [] }) {
   const [activeTab, setActiveTab] = useState('roadmap')
 
@@ -137,8 +143,8 @@ function MyPlanPage({ plannedCourses = [] }) {
           </div>
 
           <div className="academic-actions plan-actions">
-            <button>Share</button>
-            <button>Export</button>
+            <button disabled type="button">Share</button>
+            <button disabled type="button">Export</button>
           </div>
         </div>
 
@@ -223,27 +229,7 @@ function MyPlanPage({ plannedCourses = [] }) {
 
                 <div className="course-grid">
                   {semester.courses.map((course) => (
-                    <div
-                      className={`course-box ${course.issue ? 'course-warning' : ''}`}
-                      key={course.code}
-                    >
-                      <div className="course-row">
-                        <h4>{course.code}</h4>
-                        {course.grade && <span>{course.grade}</span>}
-                        {course.issue && (
-                          <span
-                            aria-label="Prerequisites Not Met"
-                            className="prereq-status-icon not-met"
-                            title="Prerequisites Not Met"
-                          >
-                            <Icon name="alert" size={14} />
-                          </span>
-                        )}
-                      </div>
-
-                      <p>{course.name}</p>
-                      <small>{course.credits}</small>
-                    </div>
+                    <CourseBox course={course} key={course.code} />
                   ))}
                 </div>
               </div>
@@ -257,6 +243,41 @@ function MyPlanPage({ plannedCourses = [] }) {
         )}
       </main>
     </div>
+  )
+}
+
+function CourseBox({ course }) {
+  const coursePath = courseDetailsByCode.get(course.code)
+  const className = `course-box ${coursePath ? 'course-box-link' : ''} ${
+    course.issue ? 'course-warning' : ''
+  }`
+  const content = (
+    <>
+      <div className="course-row">
+        <h4>{course.code}</h4>
+        {course.grade && <span>{course.grade}</span>}
+        {course.issue && (
+          <span
+            aria-label="Prerequisites Not Met"
+            className="prereq-status-icon not-met"
+            title="Prerequisites Not Met"
+          >
+            <Icon name="alert" size={14} />
+          </span>
+        )}
+      </div>
+
+      <p>{course.name}</p>
+      <small>{course.credits}</small>
+    </>
+  )
+
+  return coursePath ? (
+    <Link className={className} to={coursePath}>
+      {content}
+    </Link>
+  ) : (
+    <div className={className}>{content}</div>
   )
 }
 

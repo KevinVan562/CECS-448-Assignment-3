@@ -82,15 +82,27 @@ function DashboardPage() {
             <span className="count-pill">3 pending</span>
           </div>
           <div className="task-list">
-            {nextSteps.map((step) => (
-              <div className={step.complete ? 'task-item complete' : 'task-item'} key={step.label}>
-                <span className="task-check">
-                  {step.complete && <Icon name="check" size={14} />}
-                </span>
-                <span>{step.label}</span>
-                {!step.complete && <span className="task-arrow">-&gt;</span>}
-              </div>
-            ))}
+            {nextSteps.map((step) => {
+              const content = (
+                <>
+                  <span className="task-check">
+                    {step.complete && <Icon name="check" size={14} />}
+                  </span>
+                  <span>{step.label}</span>
+                  {!step.complete && step.to && <span className="task-arrow">-&gt;</span>}
+                </>
+              )
+
+              return step.to && !step.complete ? (
+                <Link className="task-item task-link" key={step.label} to={step.to}>
+                  {content}
+                </Link>
+              ) : (
+                <div className={step.complete ? 'task-item complete' : 'task-item'} key={step.label}>
+                  {content}
+                </div>
+              )
+            })}
           </div>
           <Link className="button-secondary full" to="/my-plan">
             View Full Plan
@@ -117,7 +129,7 @@ function DashboardPage() {
               </div>
             ))}
           </div>
-          <Link className="button-secondary full with-icon" to="/my-plan">
+          <Link className="button-secondary full with-icon" to="/alerts">
             <Icon name="calendar" size={16} />
             View All Deadlines
           </Link>
@@ -140,8 +152,8 @@ function DashboardPage() {
             Get Support
           </Link>
           <Link className="button-secondary with-icon" to="/alerts">
-            <Icon name="check" size={16} />
-            Degree Audit
+            <Icon name="alert" size={16} />
+            Alerts & Deadlines
           </Link>
         </div>
       </section>

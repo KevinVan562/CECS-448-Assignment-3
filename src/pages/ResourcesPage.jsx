@@ -86,14 +86,12 @@ function ResourcesPage() {
               <ul className="item-list">
                 {cat.items.map((item) => (
                   <li key={item.id}>
-                    <button className="item-row">
+                    <div className="item-row support-row">
                       <div>
                         <strong>{item.title}</strong>
                         <span>{item.description}</span>
                       </div>
-
-                      <span className="item-arrow">→</span>
-                    </button>
+                    </div>
                   </li>
                 ))}
               </ul>

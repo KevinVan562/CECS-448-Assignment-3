@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import Icon from '../components/Icon.jsx'
 import { courses } from '../data/courses.js'
@@ -6,10 +7,23 @@ import '../styles/CoursePlanningPage.css'
 
 const normalizeCourseId = (value) => value.toLowerCase().replace(/\s+/g, '-')
 
+const detailTabs = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'requirements', label: 'Requirements' },
+  { id: 'schedule', label: 'Schedule' },
+]
+
+const getPrerequisiteStatus = (req) =>
+  req.includes('missing') ? 'not-met' : 'met'
+
+const getPrerequisiteLabel = (req) =>
+  req.replace(' ✓', '').replace(' (missing)', '')
+
 function CourseDetailsPage({
   plannedCourses = [],
   setPlannedCourses = () => {},
 }) {
+  const [activeTab, setActiveTab] = useState('overview')
   const { courseId } = useParams()
   const navigate = useNavigate()
   const course = courses.find(
@@ -99,7 +113,7 @@ function CourseDetailsPage({
           </div>
 
           <div className="course-detail-actions">
-            <button className="secondary-btn with-icon" type="button">
+            <button className="secondary-btn with-icon" disabled type="button">
               <Icon name="download" size={16} />
               Syllabus
             </button>
@@ -168,60 +182,114 @@ function CourseDetailsPage({
         </section>
 
         <div className="segmented-tabs detail-tabs">
-          <button className="segmented-tab active" type="button">
-            Overview
-          </button>
-          <button className="segmented-tab" type="button">
-            Requirements
-          </button>
-          <button className="segmented-tab" type="button">
-            Schedule
-          </button>
+          {detailTabs.map((tab) => (
+            <button
+              className={activeTab === tab.id ? 'segmented-tab active' : 'segmented-tab'}
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              type="button"
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
 
-        <section className="detail-panel">
-          <h2>Course Description</h2>
-          <p>{course.description}</p>
-        </section>
+        {activeTab === 'overview' && (
+          <>
+            <section className="detail-panel">
+              <h2>Course Description</h2>
+              <p>{course.description}</p>
+            </section>
 
-        <section className="detail-panel">
-          <h2>Learning Outcomes</h2>
-          <ul className="learning-list">
-            {course.outcomes.map((outcome) => (
-              <li key={outcome}>
-                <Icon name="check" size={18} />
-                {outcome}
-              </li>
-            ))}
-          </ul>
-        </section>
+            <section className="detail-panel">
+              <h2>Learning Outcomes</h2>
+              <ul className="learning-list">
+                {course.outcomes.map((outcome) => (
+                  <li key={outcome}>
+                    <Icon name="check" size={18} />
+                    {outcome}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </>
+        )}
 
-        <div className="detail-grid">
-          <section className="detail-panel">
-            <h2>Required Textbooks</h2>
-            {course.textbooks.map((textbook) => (
-              <article className="textbook-card" key={textbook.title}>
-                <h3>{textbook.title}</h3>
-                <p>{textbook.author}</p>
-              </article>
-            ))}
-          </section>
+        {activeTab === 'requirements' && (
+          <div className="detail-grid">
+            <section className="detail-panel">
+              <h2>Prerequisites</h2>
+              <div className="detail-prereq-list">
+                {course.prereqs.map((req) => {
+                  const status = getPrerequisiteStatus(req)
 
-          <section className="detail-panel">
-            <h2>Grading Breakdown</h2>
-            {course.grading.map(([label, percent]) => (
-              <div className="grade-item" key={label}>
+                  return (
+                    <span
+                      className={status === 'not-met' ? 'prereq-chip not-met' : 'prereq-chip met'}
+                      key={req}
+                    >
+                      <Icon name={status === 'not-met' ? 'alert' : 'check'} size={12} />
+                      {getPrerequisiteLabel(req)}
+                    </span>
+                  )
+                })}
+              </div>
+
+              <p>
+                {course.eligible
+                  ? 'You meet the listed prerequisites for this course.'
+                  : course.prerequisiteWarning?.note}
+              </p>
+            </section>
+
+            <section className="detail-panel">
+              <h2>Required Textbooks</h2>
+              {course.textbooks.map((textbook) => (
+                <article className="textbook-card" key={textbook.title}>
+                  <h3>{textbook.title}</h3>
+                  <p>{textbook.author}</p>
+                </article>
+              ))}
+            </section>
+          </div>
+        )}
+
+        {activeTab === 'schedule' && (
+          <div className="detail-grid">
+            <section className="detail-panel">
+              <h2>Meeting Details</h2>
+              <div className="schedule-detail-list">
                 <div>
-                  <span>{label}</span>
-                  <strong>{percent}%</strong>
+                  <span>Instructor</span>
+                  <strong>{course.instructor}</strong>
                 </div>
-                <div className="grade-bar" aria-hidden="true">
-                  <span style={{ width: `${percent}%` }} />
+                <div>
+                  <span>Schedule</span>
+                  <strong>{course.schedule}</strong>
+                </div>
+                <div>
+                  <span>Availability</span>
+                  <strong>{course.availability}</strong>
                 </div>
               </div>
-            ))}
-          </section>
-        </div>
+            </section>
+
+            <section className="detail-panel">
+              <h2>Grading Breakdown</h2>
+              {course.grading.map(([label, percent]) => (
+                <div className="grade-item" key={label}>
+                  <div>
+                    <span>{label}</span>
+                    <strong>{percent}%</strong>
+                  </div>
+                  <div className="grade-bar" aria-hidden="true">
+                    <span style={{ width: `${percent}%` }} />
+                  </div>
+                </div>
+              ))}
+            </section>
+          </div>
+        )}
       </main>
     </div>
   )
