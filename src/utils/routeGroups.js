@@ -5,7 +5,7 @@ export const rubricRoutes = [
   '/dashboard',
   '/my-plan',
   '/plan-courses',
-  '/courses/cecs-343',
+  '/courses/cs-410',
   '/resources',
   '/alerts',
   '/confirmation',
