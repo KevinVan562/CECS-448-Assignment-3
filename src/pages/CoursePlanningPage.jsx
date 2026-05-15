@@ -108,7 +108,36 @@ const currentSchedule = [
     location: 'Engineering 305',
     credits: '3 credits',
   },
+  {
+    code: 'STAT 400',
+    name: 'Statistics',
+    instructor: 'Dr. Lisa Anderson',
+    schedule: 'MWF 11:00-11:50',
+    location: 'Science 118',
+    credits: '3 credits',
+  },
+  {
+    code: 'ECON 102',
+    name: 'Microeconomics',
+    instructor: 'Dr. Aaron Patel',
+    schedule: 'TR 11:00-12:15',
+    location: 'Business 214',
+    credits: '3 credits',
+  },
+  {
+    code: 'ART 150',
+    name: 'Digital Art',
+    instructor: 'Prof. Nina Brooks',
+    schedule: 'MW 15:00-16:15',
+    location: 'Arts 102',
+    credits: '3 credits',
+  },
 ]
+
+const currentScheduleCredits = currentSchedule.reduce(
+  (total, course) => total + Number.parseInt(course.credits, 10),
+  0
+)
 
 const getPrerequisiteStatus = (req) =>
   req.includes('missing') ? 'not-met' : 'met'
@@ -160,29 +189,30 @@ function CoursePlanningPage({
   }
 
   return (
-    <div className="my-plan-page course-planning-page">
-      <main className="course-main">
-        <header className="course-top">
-          <h1>Course Planning</h1>
-          <p>Browse and plan your courses</p>
+    <div className="academic-page my-plan-page course-planning-page">
+      <main className="academic-main course-main">
+        <header className="academic-header course-top">
+          <div>
+            <h1>Course Planning</h1>
+            <p>Browse and plan your courses</p>
+          </div>
         </header>
 
-        <div className="course-tabs">
+        <div className="segmented-tabs course-tabs">
           <button
-            className={activeTab === 'browse' ? 'active' : ''}
+            className={activeTab === 'browse' ? 'segmented-tab active' : 'segmented-tab'}
             onClick={() => setActiveTab('browse')}
           >
             Browse Courses
           </button>
 
           <button
-            className={activeTab === 'schedule' ? 'active' : ''}
+            className={activeTab === 'schedule' ? 'segmented-tab active' : 'segmented-tab'}
             onClick={() => setActiveTab('schedule')}
           >
             Current Schedule
+            <span className="segmented-tab-badge">{currentSchedule.length}</span>
           </button>
-
-          <span>{currentSchedule.length}</span>
         </div>
 
         {activeTab === 'browse' ? (
@@ -300,7 +330,7 @@ function CoursePlanningPage({
           <section className="schedule-card">
             <div className="schedule-title">
               <h2>Spring 2026 Schedule</h2>
-              <p>15 credits total</p>
+              <p>{currentScheduleCredits} credits total</p>
             </div>
 
             {currentSchedule.map((course) => (
@@ -338,8 +368,8 @@ function CourseDetails({
   onAddToPlan,
 }) {
   return (
-    <div className="my-plan-page course-planning-page">
-      <main className="course-main">
+    <div className="academic-page my-plan-page course-planning-page">
+      <main className="academic-main course-main">
         <button
           className="course-back-btn"
           onClick={onBack}

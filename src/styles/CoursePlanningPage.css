@@ -6,43 +6,22 @@
 
 .course-top h1 {
   margin: 0;
-  font-size: 26px;
+  font-size: 28px;
 }
 
 .course-top p {
-  margin: 8px 0 24px;
+  margin: 8px 0 0;
   color: #9bb7d8;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .course-tabs {
-  width: fit-content;
-  display: flex;
-  align-items: center;
-  background: #1a2942;
-  border-radius: 13px;
-  padding: 4px;
   margin-bottom: 28px;
 }
 
-.course-tabs button {
-  border: none;
-  background: transparent;
-  color: white;
-  padding: 8px 18px;
-  border-radius: 10px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.course-tabs button.active {
-  background: #0c1420;
-}
-
-.course-tabs span {
-  padding: 0 12px;
-  color: white;
-  font-weight: 700;
+.course-tabs .segmented-tab-badge {
+  color: #ffffff;
+  background: #2a3650;
 }
 
 .course-search-box {
