@@ -101,18 +101,6 @@
   border: 1px solid #2c3548;
   border-radius: 13px;
   padding: 24px 28px 22px;
-  transition: all 0.22s ease;
-}
-
-.figma-course-card:hover {
-  background: #161f31;
-  border-color: #625df5;
-  transform: translateY(-2px);
-  box-shadow: 0 0 18px rgba(98, 93, 245, 0.18);
-}
-
-.figma-course-card:hover h2 {
-  color: #8d8aff;
 }
 
 .figma-course-header {
@@ -154,6 +142,15 @@
   font-weight: 700;
   cursor: pointer;
   min-width: 128px;
+}
+
+.view-btn:hover {
+  background: #746cff;
+}
+
+.view-btn:focus-visible {
+  outline: 2px solid #b9b7ff;
+  outline-offset: 2px;
 }
 
 .figma-info-row {
@@ -232,28 +229,15 @@
   grid-template-columns: 1.5fr 1fr 1fr auto;
   gap: 30px;
   align-items: center;
-  transition: all 0.2s ease;
-  cursor: pointer;
 }
 
 .schedule-row + .schedule-row {
   margin-top: 12px;
 }
 
-.schedule-row:hover {
-  background: #161f31;
-  border-color: #625df5;
-  transform: translateY(-2px);
-  box-shadow: 0 0 18px rgba(98, 93, 245, 0.18);
-}
-
 .schedule-row h3 {
   margin: 0 0 18px;
   font-size: 16px;
-}
-
-.schedule-row:hover h3 {
-  color: #8d8aff;
 }
 
 .schedule-row em {
