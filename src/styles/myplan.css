@@ -1,38 +1,46 @@
+.academic-page,
 .my-plan-page {
   display: block;
   color: #ffffff;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: inherit;
 }
 
+.academic-main,
 .plan-main {
   width: 100%;
   max-width: none;
   padding: 0;
 }
 
+.academic-header,
 .plan-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 24px;
   margin-bottom: 28px;
 }
 
+.academic-header h1,
 .plan-header h1 {
   margin: 0;
   font-size: 28px;
 }
 
+.academic-header p,
 .plan-header p {
   margin: 8px 0 0;
   color: #98b5d9;
   font-size: 16px;
 }
 
+.academic-actions,
 .plan-actions {
   display: flex;
   gap: 10px;
 }
 
+.academic-actions button,
 .plan-actions button {
   background: transparent;
   border: 1px solid #293347;
@@ -43,6 +51,7 @@
   cursor: pointer;
 }
 
+.academic-actions button:hover,
 .plan-actions button:hover {
   background: #151c27;
 }
@@ -110,41 +119,76 @@
   line-height: 1.5;
 }
 
+.segmented-tabs,
 .tab-box {
   background: #1b2940;
   border-radius: 13px;
   padding: 4px;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   width: 450px;
+  max-width: 100%;
   margin-bottom: 30px;
 }
 
+.segmented-tabs .segmented-tab,
 .tab-box button {
-  flex: 1;
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   border: none;
   background: transparent;
   color: white;
-  padding: 10px;
+  padding: 0 16px;
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
 }
 
+.segmented-tabs .segmented-tab.active,
 .tab-box button.active {
   background: #101722;
 }
 
+.segmented-tab-badge {
+  display: inline-flex;
+  min-width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  color: #dbeafe;
+  background: #263247;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1;
+}
+
 .semester-section {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
 .semester-card {
+  position: relative;
   background: #111622;
   border: 1px solid #2c3548;
   border-radius: 14px;
   padding: 24px;
+}
+
+.semester-card::before {
+  position: absolute;
+  top: 62px;
+  bottom: 24px;
+  left: 39px;
+  width: 1px;
+  content: "";
+  background: #343d50;
 }
 
 .semester-title-row {
@@ -168,25 +212,48 @@
   font-size: 20px;
 }
 
-.circle {
-  width: 31px;
-  height: 31px;
+.timeline-marker {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
   border-radius: 50%;
   border: 2px solid #263247;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
+  background: #0b1020;
 }
 
-.circle.done {
+.timeline-marker.done {
   background: #16d36b;
   border-color: #16d36b;
+  color: #16d36b;
 }
 
-.circle.current {
+.timeline-marker.done::before,
+.timeline-marker.current::before {
+  display: block;
+  width: 18px;
+  height: 18px;
+  content: "";
+  background: #ffffff;
+  border-radius: 50%;
+}
+
+.timeline-marker.done svg {
+  position: absolute;
+  color: #16d36b;
+}
+
+.timeline-marker.current {
   background: #3a8dff;
   border-color: #3a8dff;
+}
+
+.timeline-marker.planned {
+  background: #0b1020;
+  border-color: #263247;
 }
 
 .status {
@@ -214,9 +281,9 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
-  margin-left: 45px;
+  margin-left: 16px;
   border-left: 1px solid #343d50;
-  padding-left: 24px;
+  padding-left: 32px;
 }
 
 .course-box {
@@ -334,6 +401,10 @@
     margin-left: 0;
     padding-left: 0;
     border-left: none;
+  }
+
+  .semester-card::before {
+    display: none;
   }
 
   .tab-box {

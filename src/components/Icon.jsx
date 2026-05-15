@@ -76,6 +76,13 @@ function Icon({ name, size = 20 }) {
         <path d="m9.2 14.8-4.3 4.3" />
       </>
     ),
+    target: (
+      <>
+        <circle cx="12" cy="12" r="10" />
+        <circle cx="12" cy="12" r="6" />
+        <circle cx="12" cy="12" r="2" />
+      </>
+    ),
     trend: (
       <>
         <path d="m3 17 6-6 4 4 8-8" />

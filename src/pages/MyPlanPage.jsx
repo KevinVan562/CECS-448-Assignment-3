@@ -128,15 +128,15 @@ function MyPlanPage({ plannedCourses = [] }) {
   })
 
   return (
-    <div className="my-plan-page">
-      <main className="plan-main">
-        <div className="plan-header">
+    <div className="academic-page my-plan-page">
+      <main className="academic-main plan-main">
+        <div className="academic-header plan-header">
           <div>
             <h1>My Academic Plan</h1>
             <p>Track your progress toward graduation</p>
           </div>
 
-          <div className="plan-actions">
+          <div className="academic-actions plan-actions">
             <button>Share</button>
             <button>Export</button>
           </div>
@@ -175,16 +175,16 @@ function MyPlanPage({ plannedCourses = [] }) {
           </p>
         </section>
 
-        <div className="tab-box">
+        <div className="segmented-tabs tab-box">
           <button
-            className={activeTab === 'roadmap' ? 'active' : ''}
+            className={activeTab === 'roadmap' ? 'segmented-tab active' : 'segmented-tab'}
             onClick={() => setActiveTab('roadmap')}
           >
             Semester Roadmap
           </button>
 
           <button
-            className={activeTab === 'requirements' ? 'active' : ''}
+            className={activeTab === 'requirements' ? 'segmented-tab active' : 'segmented-tab'}
             onClick={() => setActiveTab('requirements')}
           >
             Requirements
@@ -197,8 +197,11 @@ function MyPlanPage({ plannedCourses = [] }) {
               <div className="semester-card" key={semester.term}>
                 <div className="semester-title-row">
                   <div className="semester-left">
-                    <span className={`circle ${semester.type}`}>
-                      {semester.type === 'done' ? '✓' : ''}
+                    <span
+                      className={`timeline-marker ${semester.type}`}
+                      aria-label={`${semester.term} ${semester.status}`}
+                    >
+                      {semester.type === 'done' && <Icon name="check" size={18} />}
                     </span>
 
                     <h2>{semester.term}</h2>

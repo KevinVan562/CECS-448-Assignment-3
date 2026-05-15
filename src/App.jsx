@@ -18,8 +18,8 @@ function App() {
 
   return (
     <Routes>
+      <Route path="/" element={<WelcomePage />} />
       <Route element={<AppLayout />}>
-        <Route path="/" element={<WelcomePage />} />
         <Route path="/onboarding/major" element={<MajorSelectionPage />} />
         <Route path="/onboarding/graduation" element={<GraduationGoalPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
