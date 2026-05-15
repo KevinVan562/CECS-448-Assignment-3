@@ -96,8 +96,36 @@ const geReqs = [
   { label: 'Natural Sciences', value: '8 / 8 credits', percent: 100 },
 ]
 
-function MyPlanPage() {
+function MyPlanPage({ plannedCourses = [] }) {
   const [activeTab, setActiveTab] = useState('roadmap')
+
+  const addedCourses = plannedCourses.map((course) => ({
+    code: course.code,
+    name: course.name,
+    credits: `${course.credits || 3} credits`,
+    issue: !course.eligible,
+  }))
+
+  const updatedSemesters = semesters.map((semester) => {
+    if (semester.term !== 'Fall 2026') {
+      return semester
+    }
+
+    const existingCodes = semester.courses.map((course) => course.code)
+
+    const newCourses = addedCourses.filter(
+      (course) => !existingCodes.includes(course.code)
+    )
+
+    const combinedCourses = [...semester.courses, ...newCourses]
+
+    return {
+      ...semester,
+      courses: combinedCourses,
+      credits: `${combinedCourses.length * 3} credits`,
+      hasIssue: combinedCourses.some((course) => course.issue),
+    }
+  })
 
   return (
     <div className="my-plan-page">
@@ -165,7 +193,7 @@ function MyPlanPage() {
 
         {activeTab === 'roadmap' ? (
           <section className="semester-section">
-            {semesters.map((semester) => (
+            {updatedSemesters.map((semester) => (
               <div className="semester-card" key={semester.term}>
                 <div className="semester-title-row">
                   <div className="semester-left">
