@@ -550,6 +550,16 @@ p {
   color: var(--text);
 }
 
+.task-link {
+  color: var(--text);
+  border-radius: var(--radius);
+  text-decoration: none;
+}
+
+.task-link:hover {
+  background: #101722;
+}
+
 .task-check {
   display: grid;
   width: 20px;

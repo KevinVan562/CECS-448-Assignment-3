@@ -62,11 +62,25 @@ const getPrerequisiteLabel = (req) =>
 function CoursePlanningPage() {
   const [activeTab, setActiveTab] = useState('browse')
   const [searchTerm, setSearchTerm] = useState('')
+  const [courseFilter, setCourseFilter] = useState('all')
 
   const filteredCourses = courses.filter((course) => {
     const text = `${course.code} ${course.name} ${course.description} ${course.instructor}`
+    const matchesSearch = text.toLowerCase().includes(searchTerm.toLowerCase())
 
-    return text.toLowerCase().includes(searchTerm.toLowerCase())
+    if (!matchesSearch) {
+      return false
+    }
+
+    if (courseFilter === 'eligible') {
+      return course.eligible
+    }
+
+    if (courseFilter === 'blocked') {
+      return !course.eligible
+    }
+
+    return true
   })
 
   return (
@@ -110,7 +124,29 @@ function CoursePlanningPage() {
                 />
               </div>
 
-              <button>▽ Filters</button>
+              <div className="course-filter-group" aria-label="Course filters">
+                <button
+                  className={courseFilter === 'all' ? 'active' : ''}
+                  onClick={() => setCourseFilter('all')}
+                  type="button"
+                >
+                  All
+                </button>
+                <button
+                  className={courseFilter === 'eligible' ? 'active' : ''}
+                  onClick={() => setCourseFilter('eligible')}
+                  type="button"
+                >
+                  Eligible
+                </button>
+                <button
+                  className={courseFilter === 'blocked' ? 'active' : ''}
+                  onClick={() => setCourseFilter('blocked')}
+                  type="button"
+                >
+                  Needs Prereqs
+                </button>
+              </div>
             </section>
 
             <section className="course-list">
