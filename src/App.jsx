@@ -22,7 +22,7 @@ const courses = [
     rating: "4.5 / 5.0",
     eligible: true,
     description:
-      "Study of operating system design and implementation including process management, memory management, file systems, and I/O systems. Students will gain practical experience with system-level programming and concurrent processes.",
+      "Study of operating system design and implementation including process management, memory management, file systems, and I/O systems.",
     outcomes: [
       "Understand core operating system concepts and architecture",
       "Implement process scheduling and synchronization",
@@ -47,6 +47,38 @@ const courses = [
       ["Participation", 5],
     ],
   },
+  {
+    id: "CS 425",
+    title: "Software Engineering",
+    department: "Computer Science",
+    credits: 3,
+    instructor: "Dr. Michael Lee",
+    schedule: "TTh 2:00-3:15",
+    availability: "8 / 25 seats",
+    rating: "4.7 / 5.0",
+    eligible: true,
+    description:
+      "Introduction to software development life cycles, requirements, design, testing, version control, and team-based development.",
+    outcomes: [
+      "Apply software engineering principles",
+      "Work with Agile development methods",
+      "Write and test maintainable code",
+      "Use Git for collaboration",
+      "Design software from requirements",
+    ],
+    textbooks: [
+      {
+        title: "Software Engineering",
+        author: "Ian Sommerville",
+      },
+    ],
+    grading: [
+      ["Team Project", 45],
+      ["Assignments", 25],
+      ["Midterm Exam", 15],
+      ["Final Exam", 15],
+    ],
+  },
 ];
 
 export default function App() {
@@ -66,30 +98,38 @@ export default function App() {
       <h1>Course Planning</h1>
       <p className="subtitle">Browse and plan your courses</p>
 
-      <div className="course-card">
-        <div>
-          <h2>
-            CS 410 - Operating Systems{" "}
-            <span className="badge success">Eligible</span>
-          </h2>
-          <p>Study of operating system design and implementation.</p>
-          <p>
-            <strong>Instructor:</strong> Dr. Sarah Johnson
-          </p>
-          <p>
-            <strong>Schedule:</strong> MWF 10:00-10:50
-          </p>
-          <p>
-            <strong>Availability:</strong> 12 / 30 seats
-          </p>
-          <p>
-            <strong>Rating:</strong> 4.5 / 5.0
-          </p>
-        </div>
+      <div className="courses-list">
+        {courses.map((course) => (
+          <div className="course-card" key={course.id}>
+            <div>
+              <h2>
+                {course.id} - {course.title}{" "}
+                {course.eligible && (
+                  <span className="badge success">Eligible</span>
+                )}
+              </h2>
 
-        <button onClick={() => setSelectedCourse(courses[0])}>
-          View Details
-        </button>
+              <p>{course.description}</p>
+
+              <p>
+                <strong>Instructor:</strong> {course.instructor}
+              </p>
+              <p>
+                <strong>Schedule:</strong> {course.schedule}
+              </p>
+              <p>
+                <strong>Availability:</strong> {course.availability}
+              </p>
+              <p>
+                <strong>Rating:</strong> {course.rating}
+              </p>
+            </div>
+
+            <button onClick={() => setSelectedCourse(course)}>
+              View Details
+            </button>
+          </div>
+        ))}
       </div>
     </main>
   );
@@ -106,7 +146,10 @@ function CourseDetails({ course, onBack }) {
       <div className="details-header">
         <div>
           <h1>
-            {course.id} <span className="badge success">Eligible to Enroll</span>
+            {course.id}{" "}
+            {course.eligible && (
+              <span className="badge success">Eligible to Enroll</span>
+            )}
           </h1>
           <h2>{course.title}</h2>
           <p className="subtitle">
@@ -126,7 +169,11 @@ function CourseDetails({ course, onBack }) {
       <div className="stats-grid">
         <InfoBox icon={<Users />} label="Instructor" value={course.instructor} />
         <InfoBox icon={<Clock />} label="Schedule" value={course.schedule} />
-        <InfoBox icon={<BookOpen />} label="Availability" value={course.availability} />
+        <InfoBox
+          icon={<BookOpen />}
+          label="Availability"
+          value={course.availability}
+        />
         <InfoBox icon={<Star />} label="Rating" value={course.rating} />
       </div>
 
